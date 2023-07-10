@@ -32,23 +32,29 @@ export interface Req extends BaseReq {
 export type Res = Promise<ErrorResponse | SuccessResponse<ClientRes>>
 
 export const validationConfig = (data: ClientReq) => {
-    if (!validateEmail(data.email)) {
-        return { error: new AppError('Invalid email') }
+    try {
+      validateEmail(data.email)
+      validatePassword(data.password)
+    } catch (error) {
+      return { error: error as AppError }
     }
-
-    if (!validatePassword(data.password)) {
-        return { error: new AppError('Invalid password') }
+  
+    if (!isValidName(data.name)) {
+      return { error: new AppError('Invalid name') }
     }
-
-    if (typeof data.name !== 'string' || data.name.split(' ').length < 2) {
-        return { error: new AppError('Invalid name') }
+  
+    if (!isValidUsername(data.username)) {
+      return { error: new AppError('Invalid username') }
     }
-
-    if (typeof data.username !== 'string' || data.username.includes(' ')) {
-        return { error: new AppError('Invalid username') }
-    }
-
-    return {
-        data: true
-    }
-}
+  
+    return { data: true }
+  }
+  
+  const isValidName = (name: unknown): boolean => {
+    return typeof name === 'string' && name.split(' ').length >= 2
+  }
+  
+  const isValidUsername = (username: unknown): boolean => {
+    return typeof username === 'string' && !username.includes(' ')
+  }
+  

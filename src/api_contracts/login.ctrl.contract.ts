@@ -11,12 +11,12 @@ export interface ClientReq {
 
 export type ClientRes = {
     user: UserClient
-    tokens: {
-        access: {
+	tokens: {
+		access: {
             token: string
             expires: Date
         },
-        refresh: {
+		refresh: {
             token: string
             expires: Date
         }
@@ -30,15 +30,11 @@ export interface Req extends BaseReq {
 export type Res = Promise<ErrorResponse | SuccessResponse<ClientRes>>
 
 export const validationConfig = (data: ClientReq) => {
-    if (!validateEmail(data.email)) {
-        return { error: new AppError('Invalid email') }
-    }
-
-    if (!validatePassword(data.password)) {
-        return { error: new AppError('Invalid password') }
-    }
-
-    return {
-        data: true
-    }
+	try {
+		validateEmail(data.email)
+		validatePassword(data.password)
+		return { data: true }
+	} catch (error) {
+		return { error: error as AppError }
+	}
 }
