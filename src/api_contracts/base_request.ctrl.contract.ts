@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import { IUSer } from 'src/models/users.models.server'
+import { IUSer } from '../models/users.models.server'
 
 export type BaseReq = Request  & {
     params: { [key: string]: string | undefined }

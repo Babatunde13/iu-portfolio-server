@@ -14,6 +14,7 @@ const getDatabaseUrl = () => {
 const envs = {
     port: parseInt(process.env.PORT || '3001'),
     host: process.env.HOST || 'localhost:3001',
+    app_url: process.env.APP_URL || 'localhost:4001',
     db: {
         DATABASE_URL: getDatabaseUrl(),
     },
@@ -22,6 +23,10 @@ const envs = {
         jwt: process.env.JWT_SECRET || 'secret',
         encryption: process.env.ENCRYPTION_PUB_KEY || 'encrypt'
     },
+    mail: {
+        domain: process.env.MAILGUN_DOMAIN || '',
+        api_key: process.env.MAILGUN_API_KEY || ''
+    }
 }
 
 const verifyEnv = () => {

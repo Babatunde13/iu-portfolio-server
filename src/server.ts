@@ -1,8 +1,17 @@
-import express, { NextFunction, Response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import requestLogger from 'morgan'
 import envs from './envs'
 import { HttpMethod, ServerConfig } from './server.types'
 import logger from './shared/logger'
+
+const corsConfig = {
+    // Methods we allow
+    methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+    // Allows all header
+    headers: '*',
+    // Allow requests from all domains
+    origins: '*', // Allows all origins
+}
 
 export const startServer = async (config: ServerConfig) => {
     const app = express()
@@ -63,6 +72,18 @@ export const startServer = async (config: ServerConfig) => {
         } else if (method === HttpMethod.DELETE) {
             app.delete(path, ...middlewares)
         }
+    })
+
+    app.use((req: Request, res: Response, next: NextFunction) => {
+        res.header('Access-Control-Allow-Origin', corsConfig.origins)
+        res.header('Access-Control-Allow-Headers', corsConfig.headers)
+        if (req.method === 'OPTIONS') {
+            // preflight request
+            res.header('Access-Control-Allow-Methods', corsConfig.methods)
+            return res.status(200).json({})
+        }
+
+        return next()
     })
 
     app.use('*', (req, res) => {

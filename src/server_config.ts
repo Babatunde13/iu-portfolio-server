@@ -11,6 +11,10 @@ import logoutCtrl from './controllers/logout.ctrl'
 import refreshToken from './controllers/refresh_token.ctrl'
 import createCategoryCtrl from './controllers/create_category.ctrl'
 import getCategoriesCtrl from './controllers/get_categories.ctrl'
+import forgotPasswordCtrl from './controllers/forgot_password.ctrl'
+import resetPasswordCtrl from './controllers/reset_password.ctrl'
+import generateRandomPasswordCtrl from './controllers/generate_password.ctrl'
+import checkAvailabilityCtrl from './controllers/check_availability.ctrl'
 
 const { GET, POST, DELETE, PUT } = HttpMethod
 
@@ -24,6 +28,11 @@ export const routes: Route[] = [
         path: '/api/v1/login/',
         method: POST,
         handlers: [loginCtrl]
+    },
+    {
+        path: '/api/v1/check-availability/',
+        method: POST,
+        handlers: [checkAvailabilityCtrl]
     },
     {
         path: '/api/v1/passwords/:id',
@@ -66,9 +75,24 @@ export const routes: Route[] = [
         handlers: [requiresLogin, logoutCtrl]
     },
     {
-        path: '/api/v1/refresh_token/',
+        path: '/api/v1/refresh-token/',
         method: POST,
         handlers: [refreshToken]
+    },
+    {
+        path: '/api/v1/forgot-password/',
+        method: POST,
+        handlers: [forgotPasswordCtrl]
+    },
+    {
+        path: '/api/v1/reset-password/',
+        method: POST,
+        handlers: [resetPasswordCtrl]
+    },
+    {
+        path: '/api/v1/generate-password/',
+        method: POST,
+        handlers: [generateRandomPasswordCtrl]
     },
     {
         path: '/api/v1/docs',
