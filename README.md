@@ -1,6 +1,6 @@
-# SmartPass API
+# StrongPass API
 
-SmartPass is an application that let you securely store your passwords and manage them with ease.
+StrongPass is an application that let you securely store your passwords and manage them with ease.
 This is the API of the application.
 
 Steps to run this project locally:

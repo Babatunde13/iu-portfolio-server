@@ -80,7 +80,7 @@ export const routes: Route[] = [
                     data: null,
                     message: '',
                     options: {
-                        redirect: '/docs/index.html',
+                        redirect: 'https://documenter.getpostman.com/view/24925005/2s946bAuLt',
                         status: 302,
                     }
                 }
@@ -95,7 +95,7 @@ export const routes: Route[] = [
                 return {
                     success: true,
                     data: null,
-                    message: `Welcome to Passwordly API, you can access the <a href="${req.protocol}://${req.get('host')}/api/v1/docs">docs</a> here.`,
+                    message: `Welcome to StrongPass API, you can access the <a href="${req.protocol}://${req.get('host')}/api/v1/docs">docs</a> here.`,
                     options: {
                         sendString: true
                     }
