@@ -1,13 +1,15 @@
 import { ReqWithParams, SuccessResponse, ErrorResponse } from './base_request.ctrl.contract'
-import { UserClient } from '../models/users.model.client'
+import { CategoryClient } from '../models/categories.model.client'
 
 export interface ClientReq {
     query: {
-        limit: string
+        name: string
     }
 }
 
-export type ClientRes = UserClient[]
+export interface ClientRes {
+    data: CategoryClient[]
+}
 
 export type Req = ReqWithParams<ClientReq>
 export type Res = Promise<ErrorResponse | SuccessResponse<ClientRes>>

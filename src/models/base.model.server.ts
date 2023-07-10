@@ -268,7 +268,7 @@ export class BaseModel<T extends ModelAPI<{}>, ModelClient> {
 
     async count(
         query: FindQuery<T>,
-        options: QueryOptions
+        options: QueryOptions = {}
     ) {
         try {
             const count = await this.model.countDocuments(query, options)

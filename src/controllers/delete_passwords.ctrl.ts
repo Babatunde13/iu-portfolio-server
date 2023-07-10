@@ -1,4 +1,4 @@
-import { Req, Res } from '../api_contracts/delete_passwords.ctrl.contract'
+import { Req, Res, validationConfig } from '../api_contracts/delete_passwords.ctrl.contract'
 import isError from '../utils/is_error.utils'
 import passwordModel from '../models/passwords.models.server'
 
@@ -8,6 +8,17 @@ import passwordModel from '../models/passwords.models.server'
 export default async function deletePasswordsCtrl (req: Req): Res {
     const { user } = req
     const payload = req.body
+    const validateData = validationConfig(payload)
+    if (isError(validateData) || !validateData.data) {
+        return {
+            success: false,
+            message: validateData.error?.message || 'Invalid data',
+            options: {
+                status: 400
+            }
+        }
+    }
+
     const updatePasswordResult = await passwordModel.deleteMany({ _id: { $in: payload._ids }, user: user._id })
     if (isError(updatePasswordResult) || !updatePasswordResult.data) {
         return {

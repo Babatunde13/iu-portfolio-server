@@ -1,4 +1,4 @@
-import { Req, Res } from '../api_contracts/update_password.ctrl.contract'
+import { Req, Res, validationConfig } from '../api_contracts/update_password.ctrl.contract'
 import isError from '../utils/is_error.utils'
 import passwordModel, { IPassword } from '../models/passwords.models.server'
 import { decryptString } from '../utils/encryption.util'
@@ -10,9 +10,22 @@ import envs from '../envs'
 export default async function updatePasswordCtrl (req: Req): Res {
     const { user } = req
     const payload = req.body
+    const validateData = validationConfig(payload)
+    if (isError(validateData) || !validateData.data) {
+        return {
+            success: false,
+            message: validateData.error?.message || 'Invalid data',
+            options: {
+                status: 400
+            }
+        }
+    }
+
     const update: Partial<IPassword> = {}
+    if (payload.category) update.category = payload.category
     if (payload.password) update.password = payload.password
-    if (payload.url) update.url = payload.url
+    if (payload.website) update.website = payload.website
+    if (payload.account_name) update.account_name = payload.account_name
     if (payload.username) update.username = payload.username
     // validate request
     const updatePasswordResult = await passwordModel.updateOne({ _id: payload._id, user: user._id }, { $set: update })

@@ -1,4 +1,4 @@
-import { Req, Res } from '../api_contracts/login.ctrl.contract'
+import { Req, Res, validationConfig } from '../api_contracts/login.ctrl.contract'
 import isError from '../utils/is_error.utils'
 import usersModel from '../models/users.models.server'
 import { verifyPassword } from '../utils/verify_password_hash.utils'
@@ -9,7 +9,17 @@ import { generateAuthTokens } from './library/generate_auth_tokens'
  */
 export default async function loginCtrl (req: Req): Res {
     const payload = req.body
-    // validate request
+    const validateData = validationConfig(payload)
+    if (isError(validateData) || !validateData.data) {
+        return {
+            success: false,
+            message: validateData.error?.message || 'Invalid data',
+            options: {
+                status: 400
+            }
+        }
+    }
+
     const findUserResult = await usersModel.findOne({ email: payload.email })
     if (isError(findUserResult) || !findUserResult.data) {
         return {

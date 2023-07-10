@@ -21,12 +21,12 @@ export const encodeUser = (userId: string, exp?: number, token_type?: TokenTypes
 
 export const decodeUser = (token: string) => {
     try {
-        const { data, exp } = jwt.verify(token, envs.secrets.jwt)
-        if (exp && exp < Date.now()) {
+        const verify = jwt.verify(token, envs.secrets.jwt)
+        if (verify.exp && verify.exp < Date.now()) {
             throw new AppError('Token Expired', 'expired_token')
         }
         return {
-            data
+            data: verify.sub
         }
     } catch (e) {
         return {

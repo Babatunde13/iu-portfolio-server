@@ -1,4 +1,4 @@
-import { Req, Res } from '../api_contracts/get_password.ctrl.contract'
+import { Req, Res, validationConfig } from '../api_contracts/get_password.ctrl.contract'
 import isError from '../utils/is_error.utils'
 import passwordModel from '../models/passwords.models.server'
 import { decryptString } from '../utils/encryption.util'
@@ -10,12 +10,21 @@ import envs from '../envs'
 export default async function getPasswordCtrl (req: Req): Res {
     const { user } = req
     const { id } = req.params
-    // validate request
+   const validateData = validationConfig({ id })
+   if (isError(validateData) || !validateData.data) {
+    return {
+        success: false,
+        message: validateData.error?.message || 'Invalid data',
+        options: {
+            status: 400
+        }
+    }
+}
     const findPasswordResult = await passwordModel.findOne({ _id: id, user: user._id })
     if (isError(findPasswordResult) || !findPasswordResult.data) {
         return {
             success: false,
-            message: findPasswordResult.error?.message || 'Something went wrong',
+            message: findPasswordResult.error?.message || 'Password not found',
             options: {
                 status: 400
             }

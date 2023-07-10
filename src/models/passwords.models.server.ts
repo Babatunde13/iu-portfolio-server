@@ -12,7 +12,13 @@ const passwordModel = new BaseModel<IPassword, PasswordClient>({
         url: String,
         user: {
             type: Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
+            required: true
+        },
+        category: {
+            type: Schema.Types.ObjectId,
+            ref: 'Category',
+            index: true
         },
         password: String,
         username: String,
@@ -21,8 +27,10 @@ const passwordModel = new BaseModel<IPassword, PasswordClient>({
     toJSON(password) {
         return {
             _id: password._id.toString(),
-            url: password.url,
             user: password.user.toString(),
+            category: password.category?.toString(),
+            account_name: password.account_name,
+            website: password.website,
             username: password.username,
             password: password.password,
             created: password.created,

@@ -9,6 +9,8 @@ import deletePasswordsCtrl from './controllers/delete_passwords.ctrl'
 import updatePasswordCtrl from './controllers/update_password.ctrl'
 import logoutCtrl from './controllers/logout.ctrl'
 import refreshToken from './controllers/refresh_token.ctrl'
+import createCategoryCtrl from './controllers/create_category.ctrl'
+import getCategoriesCtrl from './controllers/get_categories.ctrl'
 
 const { GET, POST, DELETE, PUT } = HttpMethod
 
@@ -49,6 +51,16 @@ export const routes: Route[] = [
         handlers: [requiresLogin, updatePasswordCtrl]
     },
     {
+        path: '/api/v1/categories/',
+        method: POST,
+        handlers: [requiresLogin, createCategoryCtrl]
+    },
+    {
+        path: '/api/v1/categories/',
+        method: GET,
+        handlers: [requiresLogin, getCategoriesCtrl]
+    },
+    {
         path: '/api/v1/logout/',
         method: POST,
         handlers: [requiresLogin, logoutCtrl]
@@ -56,7 +68,7 @@ export const routes: Route[] = [
     {
         path: '/api/v1/refresh_token/',
         method: POST,
-        handlers: [requiresLogin, refreshToken]
+        handlers: [refreshToken]
     },
     {
         path: '/api/v1/docs',

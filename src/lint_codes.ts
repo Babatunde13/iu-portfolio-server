@@ -41,7 +41,6 @@ const infoLog = (data: string) => {
         extensions: ['.ts', '.tsx', '.js'],
         allowInlineConfig: true,
         baseConfig: eslintConfig,
-        rulePaths: [path.join(cwd, 'dist', 'src/lint_rules')],
         useEslintrc: true,
         fix: true
     })

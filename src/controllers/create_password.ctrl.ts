@@ -1,4 +1,4 @@
-import { Req, Res } from '../api_contracts/create_password.ctrl.contract'
+import { Req, Res, validationConfig } from '../api_contracts/create_password.ctrl.contract'
 import isError from '../utils/is_error.utils'
 import passwordModel from '../models/passwords.models.server'
 import { decryptString } from '../utils/encryption.util'
@@ -10,10 +10,22 @@ import envs from '../envs'
 export default async function createPasswordCtrl (req: Req): Res {
     const { user } = req
     const payload = req.body
-    // validate request
+    const validateData = validationConfig(payload)
+    if (isError(validateData) || !validateData.data) {
+        return {
+            success: false,
+            message: validateData.error?.message || 'Invalid data',
+            options: {
+                status: 400
+            }
+        }
+    }
+
     const passwordResult = await passwordModel.createAndSave({
         user: user._id,
-        url: payload.url,
+        website: payload.website,
+        category: payload.category,
+        account_name: payload.account_name,
         username: payload.username,
         password: payload.password
     })

@@ -1,4 +1,4 @@
-import { Req, Res } from '../api_contracts/register.ctrl.contract'
+import { Req, Res, validationConfig } from '../api_contracts/register.ctrl.contract'
 import isError from '../utils/is_error.utils'
 import usersModel from '../models/users.models.server'
 import capitalizeString from '../utils/capitalize_string.util'
@@ -9,7 +9,17 @@ import { generateAuthTokens } from './library/generate_auth_tokens'
  */
 export default async function registerCtrl (req: Req): Res {
     const payload = req.body
-    // validate request
+    const validateData = validationConfig(payload)
+    if (isError(validateData) || !validateData.data) {
+        return {
+            success: false,
+            message: validateData.error?.message || 'Invalid data',
+            options: {
+                status: 400
+            }
+        }
+    }
+
     const [firstName, lastName] = payload.name.split(' ')
     const registerResult = await usersModel.createAndSave({
         username: payload.username,

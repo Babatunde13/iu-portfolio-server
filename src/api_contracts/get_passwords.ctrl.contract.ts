@@ -6,6 +6,7 @@ export interface ClientReq {
         page: number
         per_page: number
         url_filter: string
+        category: string
     }
 }
 
