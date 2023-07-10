@@ -43,6 +43,12 @@ class Logger {
 		console.log(`${color}${consoleMessage}\x1b[0m`)
 	}
 
+	log(data: any) {
+		const date = new Date()
+		data.timestamp = date
+		console.log(data)
+	}
+
 	info(message: string, type: string) {
 		this.logToConsole(message, { color: LogLevel.INFO, type })
 		this.logToFile(message, { color: LogLevel.INFO, type })

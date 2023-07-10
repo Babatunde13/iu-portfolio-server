@@ -2,6 +2,7 @@ import { Req, Res, validationConfig } from '../api_contracts/create_password.ctr
 import isError from '../utils/is_error.utils'
 import passwordModel from '../models/passwords.models.server'
 import { decryptString } from '../utils/encryption.util'
+import logger from '../shared/logger'
 import envs from '../envs'
 
 /**
@@ -12,6 +13,11 @@ export default async function createPasswordCtrl (req: Req): Res {
     const payload = req.body
     const validateData = validationConfig(payload)
     if (isError(validateData) || !validateData.data) {
+        logger.log({
+            user: user._id,
+            message: validateData.error?.message || 'Invalid data',
+            payload
+        })
         return {
             success: false,
             message: validateData.error?.message || 'Invalid data',
