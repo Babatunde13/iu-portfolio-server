@@ -9,7 +9,7 @@
       "build": "tsc --project ./tsconfig.json",
       "start": "node dist/src/index.js",
       "build:watch": "tsc --project ./tsconfig.json --watch",
-      "dev": "nodemon dist/src/index.js",
+      "dev": "tsc --project ./tsconfig.json && nodemon dist/src/index.js",
       "migration:run": "node dist/src/migrations/index.migration.js",
       "prepare": "husky install"
    },
