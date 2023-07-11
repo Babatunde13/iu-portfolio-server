@@ -27,9 +27,10 @@ export const forgotPassword = async (email: string) => {
 
     const name = `${findUserResult.data.firstName} ${findUserResult.data.lastName}`
     const url = `${envs.app_url}/reset-password/${tokenResult.data}`
+
     const mailSubject = 'Reset Your StrongPass Password'
 
-    sendMail(email, mailSubject, forgotPasswordMail({ name, url }))
+    sendMail(email, name, mailSubject, forgotPasswordMail({ name, url }))
 
     return { data: 'successfully sent password reset email' }
 }

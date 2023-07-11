@@ -23,7 +23,7 @@ export const validationConfig = (data: ClientReq) => {
         return { error: new AppError('Invalid email') }
     }
 
-    if (data.username && typeof data.username !== 'undefined') {
+    if (data.username && typeof data.username !== 'string') {
         return { error: new AppError('Invalid username') }
     }
 

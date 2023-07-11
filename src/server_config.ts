@@ -15,6 +15,7 @@ import forgotPasswordCtrl from './controllers/forgot_password.ctrl'
 import resetPasswordCtrl from './controllers/reset_password.ctrl'
 import generateRandomPasswordCtrl from './controllers/generate_password.ctrl'
 import checkAvailabilityCtrl from './controllers/check_availability.ctrl'
+import verifyResetPasswordTokenCtrl from './controllers/verify_reset_password_token.ctrl'
 
 const { GET, POST, DELETE, PUT } = HttpMethod
 
@@ -88,6 +89,11 @@ export const routes: Route[] = [
         path: '/api/v1/reset-password/',
         method: POST,
         handlers: [resetPasswordCtrl]
+    },
+    {
+        path: '/api/v1/verify-reset-password-token/',
+        method: POST,
+        handlers: [verifyResetPasswordTokenCtrl]
     },
     {
         path: '/api/v1/generate-password/',

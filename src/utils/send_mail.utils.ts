@@ -1,4 +1,4 @@
-import mailgunApi from 'mailgun-js'
+import mailjet from 'node-mailjet'
 import envs from '../envs'
 import AppError from '../shared/AppError'
 
@@ -53,19 +53,30 @@ const generateMailMessage = (content: string, subject: string) => `
 </html>
 `
 
-const domain = envs.mail.domain
-const mailgun = mailgunApi({ apiKey: envs.mail.api_key, domain })
-export const sendMail = async (email: string, subject: string, template: string) => {
+const mail = mailjet.Client.apiConnect(
+    envs.mail.api_key,
+    envs.mail.api_secret
+)
+
+export const sendMail = async (email: string, name: string, subject: string, template: string) => {
     const mailMessage = generateMailMessage(template, subject)
     const data = {
-        from: 'Fidia <noreply@strongpass.com>',
-        to: email,
+        from: {
+            Email: envs.mail.sender,
+            Name: 'StrongPass Admin'
+        },
+        to: [
+            {
+              Email: email,
+              Name: name,
+            },
+          ],
         subject,
-        html: mailMessage,
+        HTMLPart: mailMessage,
     }
 
     try {
-        const send = await mailgun.messages().send(data)
+        const send = await mail.post('send', { version: 'v3.1'}).request({ Messages: [data] })
 
         return { data: send }
     } catch (err) {
