@@ -1,7 +1,7 @@
 import { Req, Res, validationConfig } from '../api_contracts/update_password.ctrl.contract'
 import isError from '../utils/is_error.utils'
 import passwordModel, { IPassword } from '../models/passwords.models.server'
-import { decryptString } from '../utils/encryption.util'
+import { decryptString, encryptString } from '../utils/encryption.util'
 import envs from '../envs'
 
 /**
@@ -23,7 +23,19 @@ export default async function updatePasswordCtrl (req: Req): Res {
 
     const update: Partial<IPassword> = {}
     if (payload.category) update.category = payload.category
-    if (payload.password) update.password = payload.password
+    if (payload.password) {
+        const encryptPassword = encryptString(payload.password, envs.secrets.encryption)
+        if (isError(encryptPassword) || !encryptPassword.data) {
+            return {
+                success: false,
+                message: encryptPassword.error?.message || 'Something went wrong',
+                options: {
+                    status: 400
+                }
+            }
+        }
+        update.password = encryptPassword.data.encryptedData
+    }
     if (payload.website) update.website = payload.website
     if (payload.account_name) update.account_name = payload.account_name
     if (payload.username) update.username = payload.username

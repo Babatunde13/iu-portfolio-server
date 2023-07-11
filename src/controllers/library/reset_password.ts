@@ -4,6 +4,7 @@ import tokenModel from '../../models/tokens.model.server'
 import AppError from '../../shared/AppError'
 import { decodeUser } from '../../utils/jwt.utils'
 import userModel from '../../models/users.models.server'
+import { hashPassword } from '../../utils/hash_password.utils'
 
 export const resetPassword = async (token: string, password: string) => {
     const decodeUserResult = decodeUser(token)
@@ -25,8 +26,13 @@ export const resetPassword = async (token: string, password: string) => {
         return { error: new AppError('Not found') }
     }
 
+    const hashPasswordResult = await hashPassword(password)
+    if (isError(hashPasswordResult)) {
+        return { error: new AppError('Could not hash password') }
+    }
+
     await Promise.all([
-        userModel.updateOne({ email: findUserResult.data.email }, { $set: { password }}),
+        userModel.updateOne({ email: findUserResult.data.email }, { $set: { password: hashPasswordResult.data }}),
         tokenModel.deleteOne({ _id: findTokenResult.data._id })
     ])
     

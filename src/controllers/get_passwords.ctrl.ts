@@ -1,6 +1,8 @@
 import isError from '../utils/is_error.utils'
 import { Req, Res } from '../api_contracts/get_passwords.ctrl.contract'
 import passwordModel from '../models/passwords.models.server'
+import { decryptString } from '../utils/encryption.util'
+import envs from '../envs'
 
 /**
  * Get all passwords
@@ -27,6 +29,28 @@ export default async function getPasswordsCtrl (req:Req): Res {
             }
         }
     }
+
+    // decrypt passwords
+    let error = ''
+    passwordsResult.data.forEach(password => {
+        const decryptPassword = decryptString(password.password, envs.secrets.encryption)
+        if (isError(decryptPassword) || !decryptPassword.data) {
+            error = decryptPassword.error?.message || 'Something went wrong'
+            return
+        }
+        password.password = decryptPassword.data.decryptedData
+    })
+
+    if (error) {
+        return {
+            success: false,
+            message: error,
+            options: {
+                status: 400
+            }
+        }
+    }
+
 
     const passwordCountResult = await passwordModel.count(filter, findOptions)
     if (isError(passwordCountResult)) {
