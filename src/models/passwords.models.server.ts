@@ -9,7 +9,7 @@ export interface IPassword extends ModelAPI<PasswordClient> {}
 const passwordModel = new BaseModel<IPassword, PasswordClient>({
     name: 'Password',
     schema: {
-        url: String,
+        website: String,
         user: {
             type: Schema.Types.ObjectId,
             ref: 'User',
