@@ -1,7 +1,8 @@
 {
-   "name": "node-mongo-boilerplate",
+   "name": "strongpass-api",
    "version": "1.0.0",
-   "description": "A boilerplate for node.js, TypeScript and MongoDB. Built with ❤️  by @bkoiki950",
+   "description": "StrongPass API. Built with ❤️  by @bkoiki950",
+   "preview": true,
    "main": "index.js",
    "scripts": {
       "test": "NODE_ENV=test mocha dist/src/shared/test_utils/before_hook --exit --timeout 10000 --bail --reporter spec --exit --full-trace --sort --retries 2 dist/**/*.spec.js",
@@ -13,7 +14,7 @@
       "migration:run": "node dist/src/migrations/index.migration.js",
       "prepare": "husky install"
    },
-   "keywords": [],
+   "keywords": ["encryption", "password", "security", "api", "strongpass"],
    "author": "Babatunde Koiki",
    "license": "ISC",
    "dependencies": {
