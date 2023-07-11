@@ -7,9 +7,9 @@
    "scripts": {
       "test": "NODE_ENV=test mocha dist/src/shared/test_utils/before_hook --exit --timeout 10000 --bail --reporter spec --exit --full-trace --sort --retries 2 dist/**/*.spec.js",
       "lint": "node dist/src/lint_codes.js",
-      "build": "tsc --project ./tsconfig.json",
+      "build": "./node_modules/.bin/tsc --project ./tsconfig.json",
       "start": "node dist/src/index.js",
-      "build:watch": "tsc --project ./tsconfig.json --watch",
+      "build:watch": "./node_modules/.bin/tsc --project ./tsconfig.json --watch",
       "dev": "nodemon dist/src/index.js",
       "migration:run": "node dist/src/migrations/index.migration.js",
       "prepare": "husky install"

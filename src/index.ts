@@ -12,7 +12,7 @@ export const runServer = async () => {
         return
     }
     await startServer({
-        port: envs.port,
+        port: envs.port, 
         routes
     })
 }
