@@ -21,87 +21,87 @@ const { GET, POST, DELETE, PUT } = HttpMethod
 
 export const routes: Route[] = [
     {
-        path: '/api/v1/register/',
+        path: '/register/',
         method: POST,
         handlers: [registerCtrl]
     },
     {
-        path: '/api/v1/login/',
+        path: '/login/',
         method: POST,
         handlers: [loginCtrl]
     },
     {
-        path: '/api/v1/check-availability/',
+        path: '/check-availability/',
         method: POST,
         handlers: [checkAvailabilityCtrl]
     },
     {
-        path: '/api/v1/passwords/:id',
+        path: '/passwords/:id',
         method: GET,
         handlers: [requiresLogin, getPasswordCtrl]
     },
     {
-        path: '/api/v1/passwords/',
+        path: '/passwords/',
         method: GET,
         handlers: [requiresLogin, getPasswordsCtrl]
     },
     {
-        path: '/api/v1/passwords/',
+        path: '/passwords/',
         method: POST,
         handlers: [requiresLogin, createPasswordCtrl]
     },
     {
-        path: '/api/v1/passwords/',
+        path: '/passwords/',
         method: DELETE,
         handlers: [requiresLogin, deletePasswordsCtrl]
     },
     {
-        path: '/api/v1/passwords/',
+        path: '/passwords/',
         method: PUT,
         handlers: [requiresLogin, updatePasswordCtrl]
     },
     {
-        path: '/api/v1/categories/',
+        path: '/categories/',
         method: POST,
         handlers: [requiresLogin, createCategoryCtrl]
     },
     {
-        path: '/api/v1/categories/',
+        path: '/categories/',
         method: GET,
         handlers: [requiresLogin, getCategoriesCtrl]
     },
     {
-        path: '/api/v1/logout/',
+        path: '/logout/',
         method: POST,
         handlers: [requiresLogin, logoutCtrl]
     },
     {
-        path: '/api/v1/refresh-token/',
+        path: '/refresh-token/',
         method: POST,
         handlers: [refreshToken]
     },
     {
-        path: '/api/v1/forgot-password/',
+        path: '/forgot-password/',
         method: POST,
         handlers: [forgotPasswordCtrl]
     },
     {
-        path: '/api/v1/reset-password/',
+        path: '/reset-password/',
         method: POST,
         handlers: [resetPasswordCtrl]
     },
     {
-        path: '/api/v1/verify-reset-password-token/',
+        path: '/verify-reset-password-token/',
         method: POST,
         handlers: [verifyResetPasswordTokenCtrl]
     },
     {
-        path: '/api/v1/generate-password/',
+        path: '/generate-password/',
         method: POST,
         handlers: [generateRandomPasswordCtrl]
     },
     {
-        path: '/api/v1/docs',
+        path: '/docs',
         method: GET,
         handlers: [
             async () => {
@@ -125,7 +125,7 @@ export const routes: Route[] = [
                 return {
                     success: true,
                     data: null,
-                    message: `Welcome to StrongPass API, you can access the <a href="${req.protocol}://${req.get('host')}/api/v1/docs">docs</a> here.`,
+                    message: `Welcome to StrongPass API, you can access the <a href="${req.protocol}://${req.get('host')}/docs">docs</a> here.`,
                     options: {
                         sendString: true
                     }

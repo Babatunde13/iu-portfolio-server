@@ -14,7 +14,13 @@
       "migration:run": "node dist/src/migrations/index.migration.js",
       "prepare": "husky install"
    },
-   "keywords": ["encryption", "password", "security", "api", "strongpass"],
+   "keywords": [
+      "encryption",
+      "password",
+      "security",
+      "api",
+      "strongpass"
+   ],
    "author": "Babatunde Koiki",
    "license": "ISC",
    "dependencies": {
@@ -26,7 +32,8 @@
       "jsonwebtoken": "8.5.1",
       "mongoose": "6.1.6",
       "morgan": "1.10.0",
-      "node-mailjet": "^6.0.2"
+      "node-mailjet": "^6.0.2",
+      "serverless-http": "^3.2.0"
    },
    "devDependencies": {
       "@types/bcrypt": "5.0.0",
