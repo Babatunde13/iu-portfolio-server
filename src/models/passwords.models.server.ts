@@ -20,6 +20,7 @@ const passwordModel = new BaseModel<IPassword, PasswordClient>({
             ref: 'Category',
             index: true
         },
+        account_name: String,
         password: String,
         username: String,
         
