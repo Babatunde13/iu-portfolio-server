@@ -47,8 +47,24 @@ const verifyEnv = () => {
         throw new AppError('PORT is not set', 'environment_variables_check')
     }
 
+    if (!envs.mail.sender) {
+        throw new AppError('SENDER_EMAIL is not set', 'environment_variables_check')
+    }
+
+    if (!envs.mail.api_key) {
+        throw new AppError('MJ_APIKEY_PUBLIC is not set', 'environment_variables_check')
+    }
+
+    if (!envs.mail.api_secret) {
+        throw new AppError('MJ_APIKEY_PRIVATE is not set', 'environment_variables_check')
+    }
+
     if (!envs.host) {
         throw new AppError('HOST URL is not set', 'environment_variables_check')
+    }
+
+    if (!envs.app_url) {
+        throw new AppError('APP URL is not set', 'environment_variables_check')
     }
 
     if (!envs.env) {

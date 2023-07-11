@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express'
 import requestLogger from 'morgan'
+import cors from 'cors'
 import envs from './envs'
 import { HttpMethod, ServerConfig } from './server.types'
 import logger from './shared/logger'
@@ -17,6 +18,7 @@ export const startServer = async (config: ServerConfig) => {
     const app = express()
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))
+    app.use(cors())
     app.set('trust proxy', true)
     if (envs.env !== 'test') {
         app.use(requestLogger('dev'))
