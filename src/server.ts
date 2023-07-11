@@ -1,5 +1,4 @@
 import express, { NextFunction, Request, Response } from 'express'
-import serverless from 'serverless-http'
 import requestLogger from 'morgan'
 import cors from 'cors'
 import envs from './envs'
@@ -25,8 +24,6 @@ export const startServer = async (config: ServerConfig) => {
         app.use(requestLogger('dev'))
     }
 
-    const serverlessRoute = '/api/v1/'
-    const serverlessRouter = express.Router()
     config.routes.forEach((route) => {
         const { handlers, path, method } = route
         const middlewares = handlers.map((handler) => {
@@ -69,17 +66,15 @@ export const startServer = async (config: ServerConfig) => {
         })
 
         if (method === HttpMethod.POST) {
-            serverlessRouter.post(path, ...middlewares)
+            app.post(path, ...middlewares)
         } else if (method === HttpMethod.GET) {
-            serverlessRouter.get(path, ...middlewares)
+            app.get(path, ...middlewares)
         } else if (method === HttpMethod.PUT) {
-            serverlessRouter.put(path, ...middlewares)
+            app.put(path, ...middlewares)
         } else if (method === HttpMethod.DELETE) {
-            serverlessRouter.delete(path, ...middlewares)
+            app.delete(path, ...middlewares)
         }
     })
-
-    app.use(serverlessRoute, serverlessRouter)
 
     app.use((req: Request, res: Response, next: NextFunction) => {
         res.header('Access-Control-Allow-Origin', corsConfig.origins)
@@ -105,9 +100,7 @@ export const startServer = async (config: ServerConfig) => {
         logger.info(`Server listening on port ${config.port} 🚀`, 'Server Startup')
     })
 
-    return serverless(app, {
-        basePath: serverlessRoute
-    })
+    return app
 }
 
 export default startServer
