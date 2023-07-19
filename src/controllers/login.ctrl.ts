@@ -24,7 +24,7 @@ export default async function loginCtrl (req: Req): Res {
     if (isError(findUserResult) || !findUserResult.data) {
         return {
             success: false,
-            message: 'Login failed',
+            message: 'Invalid email or password',
             options: {
                 status: 400
             }
@@ -34,7 +34,7 @@ export default async function loginCtrl (req: Req): Res {
     const comparePasswordHash = await verifyPassword(payload.password, findUserResult.data.password || '')
     if (isError(comparePasswordHash) || !comparePasswordHash.data) return {
         success: false,
-        message: 'Login failed',
+        message: 'Invalid email or password',
         options: {
             status: 400
         }

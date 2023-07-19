@@ -105,7 +105,6 @@ export class BaseModel<T extends ModelAPI<{}>, ModelClient> {
                 data: doc,
             }
         } catch (error) {
-            console.log(error)
             return {
                 error: new AppError('Error creating and saving document')
             }
