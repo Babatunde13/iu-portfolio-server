@@ -7,7 +7,7 @@ import envs from '../envs'
 /**
  * Get all passwords
  */
-export default async function getPasswordsCtrl (req:Req): Res {
+export default async function getPasswordsCtrl (req: Req): Res {
     const page = req.query.page || 1
     const limit = req.query.per_page || 10
     const sort: { [name: string]: 1 | -1 } = { created: -1 }
@@ -16,7 +16,7 @@ export default async function getPasswordsCtrl (req:Req): Res {
         limit,
         sort
     }
-    const filter: any = {}
+    const filter: any = { user: req.user._id }
     if (req.query.url_filter) filter.website ={ $regex: req.query.url_filter, $options: 'i' }
     if (req.query.category) filter.category = req.query.category
     const passwordsResult = await passwordModel.find(filter, findOptions)

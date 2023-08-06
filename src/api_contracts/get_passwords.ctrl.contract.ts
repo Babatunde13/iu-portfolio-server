@@ -1,5 +1,6 @@
 import { ReqWithParams, SuccessResponse, ErrorResponse } from './base_request.ctrl.contract'
 import { PasswordClient } from '../models/passwords.model.client'
+import { IUSer } from '../models/users.models.server'
 
 export interface ClientReq {
     query: {
@@ -18,5 +19,8 @@ export interface ClientRes {
     }
 }
 
-export type Req = ReqWithParams<ClientReq>
+export interface Req extends ReqWithParams<ClientReq> {
+    user: IUSer
+}
+
 export type Res = Promise<ErrorResponse | SuccessResponse<ClientRes>>

@@ -5,9 +5,9 @@ import categoryModel from '../models/categories.model.server'
 /**
  * Get all categories
  */
-export default async function getCategoriesCtrl (req:Req): Res {
+export default async function getCategoriesCtrl (req :Req): Res {
     const filter = req.query.name ? { url: { $regex: req.query.name, $options: 'i' } } : {}
-    const categoriesResult = await categoryModel.find(filter)
+    const categoriesResult = await categoryModel.find({ ...filter, user: req.user._id })
     if (isError(categoriesResult) || !categoriesResult.data) {
         return {
             success: false,
